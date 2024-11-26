@@ -23,7 +23,7 @@ public class User {
         return this;
     }
 
-    public User setUserName(String name) {
+    public User setName(String name) {
         this.name = name;
         return this;
     }

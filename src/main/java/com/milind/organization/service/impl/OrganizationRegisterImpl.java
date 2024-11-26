@@ -42,7 +42,7 @@ public class OrganizationRegisterImpl implements OrganizationRegister {
             Organization savedOrganization = organizationDao.save(saveOrg);
             log.info("Saved organization: {}", savedOrganization);
             OrganisationDetails response = modelMapper.map(savedOrganization, OrganisationDetails.class);
-            User user = new User().setUserName("DEFAULT").setOrganizationId(savedOrganization.getId()).
+            User user = new User().setName("DEFAULT").setOrganizationId(savedOrganization.getId()).
                     setId(UUID.randomUUID().toString()).setRole(Role.ADMIN).setNoLogin(true);
             userDao.save(user);
             return response;

@@ -7,7 +7,6 @@ import com.milind.organization.entity.User;
 import com.milind.organization.service.LoginService;
 import com.milind.organization.util.JwtTokenUtil;
 import com.milind.organization.util.LoginRequest;
-import com.milind.organization.util.LoginResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +32,7 @@ public class LoginServiceimpl implements LoginService {
         // Fetch User and Organization
         List<User> all = userDao.findAll();
         System.out.println("USERS :- "+all);
-        User user = userDao.findByName(loginRequest.getUsername())
+        User user = userDao.findByName(loginRequest.getName())
                 .orElseThrow(() -> new RuntimeException("Invalid username"));
         Organization organization = organizationDao.findById(loginRequest.getOrganizationId())
                 .orElseThrow(() -> new RuntimeException("Invalid organization ID"));

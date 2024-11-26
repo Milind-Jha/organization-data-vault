@@ -20,18 +20,20 @@ public class UserDetailsImplService implements UserDetailsService {
     private OrganizationDao organizationDao;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         // Split username to retrieve organizationId (if required by your design)
-        String[] parts = username.split(":");
+        String[] parts = name.split(":");
+        for(String nameElement:parts){
+            System.out.println(nameElement+"\n");
+        }
         if (parts.length != 2) {
             throw new UsernameNotFoundException("Invalid username format. Use 'username:organizationId'");
         }
-        String userName = parts[0];
+        String nameFound = parts[0];
         String organizationId = parts[1];
-
         // Fetch User and Organization
-        User user = userDao.findByName(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + userName));
+        User user = userDao.findByName(nameFound)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + nameFound));
         Organization organization = organizationDao.findById(organizationId)
                 .orElseThrow(() -> new UsernameNotFoundException("Organization not found with ID: " + organizationId));
 

@@ -1,6 +1,7 @@
 package com.milind.organization.config;
 
 import com.milind.organization.filter.JwtFilter;
+import com.milind.organization.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,7 +25,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(auth -> auth
-                        .antMatchers("/organization/registerOrganization", "/organization/login").permitAll() // Allow login and registration
+                        .antMatchers("/organization/registerOrganization", "/organization/login",
+                                "/organization/**").permitAll() // Allow login and registration
                         .anyRequest().authenticated() // Secure other endpoints
                 )
                 .csrf().disable()
@@ -41,4 +44,9 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+//    @Bean
+//    public JwtFilter jwtFilter(JwtTokenUtil jwtUtil, UserDetailsService userDetailsService) {
+//        return new JwtFilter(jwtUtil, userDetailsService);
+//    }
 }
