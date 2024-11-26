@@ -30,14 +30,14 @@ public class UserDetailsImplService implements UserDetailsService {
         String organizationId = parts[1];
 
         // Fetch User and Organization
-        User user = userDao.findByUserName(userName)
+        User user = userDao.findByName(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + userName));
         Organization organization = organizationDao.findById(organizationId)
                 .orElseThrow(() -> new UsernameNotFoundException("Organization not found with ID: " + organizationId));
 
         // Return UserDetails object (Spring Security requires a password, provide org's password here)
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUserName() + ":" + user.getOrganizationId()) // Include orgId for clarity
+                .username(user.getName() + ":" + user.getOrganizationId()) // Include orgId for clarity
                 .password(organization.getPassword()) // Organization password
                 .roles(user.getRole().name()) // Use User's role for security
                 .build();

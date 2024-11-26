@@ -4,6 +4,7 @@ import com.milind.organization.dao.UserDao;
 import com.milind.organization.dto.OrganizationCredentials;
 import com.milind.organization.entity.User;
 import com.milind.organization.response.OrganisationDetails;
+import com.milind.organization.service.EmailService;
 import com.milind.organization.service.LoginService;
 import com.milind.organization.service.OrganizationService;
 import com.milind.organization.service.impl.OrganizationRegisterImpl;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class OrganizationController {
 
-
+    @Autowired
+    EmailService emailService;
     @Autowired
     OrganizationRegisterImpl organizationRegister;
     @Autowired
@@ -41,6 +43,8 @@ public class OrganizationController {
         System.out.println("reached");
         try {
             String token = loginService.login(loginRequest);
+            OrganisationDetails details = organizationService.getDetails(loginRequest.getOrganizationId());
+            emailService.sendSimpleMail(details.getRegisteredMailId());
             return ResponseEntity.ok(new LoginResponse(token));
         } catch (RuntimeException ex) {
             log.error("Login failed: {}", ex.getMessage());

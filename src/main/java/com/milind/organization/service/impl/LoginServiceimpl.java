@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class LoginServiceimpl implements LoginService {
@@ -29,7 +31,9 @@ public class LoginServiceimpl implements LoginService {
     @Override
     public String login(LoginRequest loginRequest) {
         // Fetch User and Organization
-        User user = userDao.findByUserName(loginRequest.getUsername())
+        List<User> all = userDao.findAll();
+        System.out.println("USERS :- "+all);
+        User user = userDao.findByName(loginRequest.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid username"));
         Organization organization = organizationDao.findById(loginRequest.getOrganizationId())
                 .orElseThrow(() -> new RuntimeException("Invalid organization ID"));
@@ -40,7 +44,7 @@ public class LoginServiceimpl implements LoginService {
         }
 
         // Generate JWT token
-        return jwtTokenUtil.generateToken(user.getUserName() , user.getOrganizationId());
+        return jwtTokenUtil.generateToken(user.getName() , user.getOrganizationId());
     }
 
 //    public String login(LoginRequest loginRequest) {

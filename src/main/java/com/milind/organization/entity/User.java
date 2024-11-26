@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class User {
     @Id
     private String id;
-    private String userName;
+    private String name;
     private Role role;
     private String organizationId;
     private boolean noLogin;
@@ -23,8 +23,8 @@ public class User {
         return this;
     }
 
-    public User setUserName(String userName) {
-        this.userName = userName;
+    public User setUserName(String name) {
+        this.name = name;
         return this;
     }
 
