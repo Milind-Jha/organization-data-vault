@@ -1,5 +1,8 @@
 package com.milind.organization.service.impl;
 
+import com.milind.organization.dao.OrganizationWithOtpDao;
+import com.milind.organization.entity.Organization;
+import com.milind.organization.entity.OrganizationwithOtp;
 import com.milind.organization.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 @Service
 public class EmailServiceImpl implements EmailService {
-
     @Autowired
     private JavaMailSender mailSender;
     @Value("${welcome.email.subject}")
@@ -19,14 +21,25 @@ public class EmailServiceImpl implements EmailService {
     private String mailBody1;
     @Value("${welcome.email.body2}")
     private String mailBody2;
+    @Autowired
+    OrganizationWithOtpDao organizationWithOtpDao;
+
     @Override
-    public void sendSimpleMail(String to) {
+    public void sendSimpleMail(String organizationId,String to) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
+        String otp = generateOtp();
         message.setSubject(subjectBody);
-        message.setText(mailBody1+mailBody2+generateOtp());
-        message.setFrom("jhamiind61@gmail.com");
+        message.setText(mailBody1+mailBody2+otp);
+        message.setFrom("jhamiind88@gmail.com");
+        OrganizationwithOtp organizationwithOtp = new OrganizationwithOtp(organizationId,otp);
+        organizationWithOtpDao.save(organizationwithOtp);
         mailSender.send(message);
+    }
+
+    @Override
+    public boolean valiDateOtp() {
+        return false;
     }
 
     private String generateOtp(){
@@ -41,4 +54,5 @@ public class EmailServiceImpl implements EmailService {
         else
             return String.valueOf(otp);
     }
+
 }

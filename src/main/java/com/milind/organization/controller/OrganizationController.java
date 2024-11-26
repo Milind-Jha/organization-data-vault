@@ -44,7 +44,7 @@ public class OrganizationController {
         try {
             String token = loginService.login(loginRequest);
             OrganisationDetails details = organizationService.getDetails(loginRequest.getOrganizationId());
-            emailService.sendSimpleMail(details.getRegisteredMailId());
+            emailService.sendSimpleMail(loginRequest.getOrganizationId(), details.getRegisteredMailId());
             return ResponseEntity.ok(new LoginResponse(token));
         } catch (RuntimeException ex) {
             log.error("Login failed: {}", ex.getMessage());
