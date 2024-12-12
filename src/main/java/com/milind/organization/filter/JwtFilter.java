@@ -54,7 +54,6 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 // Load user details by username with organization ID
                 String[] userArray = nameWithOrg.split(":");
-                System.out.println("\n"+userArray[0]+"\n");
                 UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(userArray[0]);
                 // Validate the token using JwtTokenUtil
                 if (jwtTokenUtil.validateToken(jwt, userDetails)) {

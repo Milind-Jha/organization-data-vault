@@ -31,7 +31,6 @@ public class LoginServiceimpl implements LoginService {
     public String login(LoginRequest loginRequest) {
         // Fetch User and Organization
         List<User> all = userDao.findAll();
-        System.out.println("USERS :- "+all);
         User user = userDao.findByName(loginRequest.getName())
                 .orElseThrow(() -> new RuntimeException("Invalid username"));
         Organization organization = organizationDao.findById(loginRequest.getOrganizationId())
@@ -51,7 +50,6 @@ public class LoginServiceimpl implements LoginService {
 //                loginRequest.getUsername()
 //        ).orElseThrow(() -> new RuntimeException("Invalid username"));
 //        log.info("inside service method");
-//        System.out.println("reached service layer");
 //        if(user.getOrganizationId()!=loginRequest.getOrganizationId())
 //            throw new RuntimeException("Invalid Credentials");
 //        log.info("organization Credentials verified");

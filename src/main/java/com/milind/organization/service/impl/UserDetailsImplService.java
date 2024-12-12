@@ -23,9 +23,6 @@ public class UserDetailsImplService implements UserDetailsService {
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         // Split username to retrieve organizationId (if required by your design)
         String[] parts = name.split(":");
-        for(String nameElement:parts){
-            System.out.println(nameElement+"\n");
-        }
         if (parts.length != 2) {
             throw new UsernameNotFoundException("Invalid username format. Use 'username:organizationId'");
         }
